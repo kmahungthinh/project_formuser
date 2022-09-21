@@ -17,7 +17,7 @@
     <!-- Style -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <title>Multiple user login</title>
+    <title>Login Page</title>
   </head>
   <body>
   <div class="content">
@@ -33,13 +33,10 @@
                   <div class="mb-4">
                 </div>
 
-              <span class="mb-0 text-muted">
-                {% if msg %}
-                    {{ msg | safe }}
-                {% else %}
-                    Login page
-                {% endif %}
-              </span>
+             <div class="form-block">
+                  <div class="mb-4">
+                      <h1>Người dùng đăng nhập</h1>
+                </div>
                 <form  method="post">
                     {% csrf_token %}
                   <div class="form-group first">
@@ -52,15 +49,16 @@
                   </div>
 
                   <div class="d-flex mb-5 align-items-center">
-                    <label class="control control--checkbox mb-0"><span class="caption">Nhớ mật khẩu</span>
-                      <input type="checkbox" checked="checked"/>
-                      <div class="control__indicator"></div>
-                    </label>
+
                     <span class="ml-auto"><a href="{% url 'path_quenmatkhau' %}" class="forgot-pass">Quên mật khẩu</a></span>
                   </div>
 
-                  <input type="submit" value="Log In" class="btn btn-pill text-white btn-block btn-primary">
+                  <input type="submit" value="Xác nhận" class="btn btn-pill text-white btn-block btn-primary">
                 </form>
+
+                {% if msg %}
+                    {{ msg | safe }}
+                {% endif %}
               </div>
             </div>
           </div>

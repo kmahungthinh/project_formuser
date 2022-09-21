@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Quản lý khách hàng</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <form method="POST">
+        {% csrf_token %}
+        <!--
+         <button class="button" onClick="window.open('{% url 'path_dangky' %}');">
+            <span class="icon-plus">Kích hoạt tài khoản</span>
+        </button>-->
+        <div>
+            <br>
+            <p>
+                <h3>Quản lý khách hàng</h3>
+            </p>
+            <div>
+                <p>Tài khoản:</p>{{form.username}}
+            </div>
+            <div>
+                <p>Mật khẩu:</p>{{form.password1}}
+            </div>
+            <div>
+                <p>Mã khách hàng:</p>{{form.makhachhang}}
+            </div>
+            <div>
+                <p>Tên cuối:</p>{{form.last_name}}
+            </div>
+            <div>
+                <p>Địa chỉ:</p>{{form.diachi}}
+            </div>
+            <div>
+                <p>Số điện thoại:</p>{{form.sodienthoai}}
+            </div>
+            <div>
+                <p>Mã dịnh danh:</p>{{form.madinhdanh}}
+            </div>
+            <div>
+                <p>Email:</p>{{form.email}}
+            </div>
+             <div>
+                <p>Mô tả nội dung yêu cầu:</p>{{form.motanoidungyeucau}}
+            </div>
+            <div>
+                <p>Giá tiền:</p>{{form.giatien}}
+            </div>
+            <div>
+                <p>Số lượng khảo sát:</p>{{form.soluongkhaosat}}
+            </div>
+            <div>
+                <p>Số câu khảo sát:</p>{{form.socaukhaosat}}
+            </div>
+            <div>
+                <br>
+                <input type="submit"  value="Xác nhận" class="btn btn-pill text-white btn-block btn-primary">
+            </div>
+
+        </div>
+        <span class="text-error">{{ form.errors }}</span>
+        {% if msg %}
+        <h2>{{ msg | safe }}</h2>
+            {% endif %}
+
+    </form>
+</body>
+
+</html>

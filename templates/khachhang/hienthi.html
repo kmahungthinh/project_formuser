@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Employee Record</title>
+    {% load static %}
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+</head>
+
+<body>
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Tên</th>
+                <th>Địa chỉ Email</th>
+                <th>Liên hệ</th>
+                <th>Action</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in khachhang %}
+            <tr>
+                <td>{{i.id}}</td>
+                <td>{{i.last_name}}</td>
+                <td>{{i.email}}</td>
+                <td>{{i.diachi}}</td>
+                <td>
+                    <a href="/edit/{{i.id}}">Edit</a>
+                    <a href="/delete/{{i.id}}">Delete</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    <br>
+    <br>
+    <button><a style="color:white;" href="{% url 'path_themkhachhang' %}">Thêm khách hàng</a></button>
+</body>
+
+</html>

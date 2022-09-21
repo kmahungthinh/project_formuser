@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from .forms import *
 from django.contrib.auth import authenticate, login
 from .service import *
-from django.contrib.auth.forms import PasswordChangeForm
+from .models import *
 from django.contrib.auth import update_session_auth_hash
 # Create your views here.
 
@@ -18,23 +18,14 @@ def index(request):
 def viewDangKy(request):
     msg = None
     if request.method == 'POST':
-        taikhoan = request.POST.getlist('taikhoan')
-        taikhoan = taikhoan[0]
-        matkhau = request.POST.getlist('matkhau')
-        matkhau = matkhau[0]
-        nhaplaimatkhau = request.POST.getlist('nhaplaimatkhau')
-        nhaplaimatkhau = nhaplaimatkhau[0]
-        email = request.POST.getlist('email')
-        email = email[0]
-        sodienthoai = request.POST.getlist('sodienthoai')
-        sodienthoai = sodienthoai[0]
-        diachi = request.POST.getlist('diachi')
-        diachi = diachi[0]
-        thongBaoTrangThaiDangKy = checkDangKy(taikhoan, matkhau, nhaplaimatkhau, email, sodienthoai)
-        msg=thongBaoTrangThaiDangKy
-        if thongBaoTrangThaiDangKy == "Bạn đã đăng ký thành công":
-            sql_DangKy(taikhoan, matkhau, email, sodienthoai, diachi)
-    return render(request,'dangky.html', {'msg': msg})
+        form = SignUpForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            msg = 'Đăng ký thành công'
+            return render(request,'dangky.html', {'form': form, 'msg': msg})
+    else:
+        form = SignUpForm()
+    return render(request,'dangky.html', {'form': form, 'msg': msg})
 def viewDangNhap(request):
     form = LoginForm(request.POST or None)
     msg = None
@@ -43,12 +34,12 @@ def viewDangNhap(request):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(username=username, password=password)
-            if user is not None and user.is_customer:
+            if user is not None and user.la_khachhang:
                 login(request, user)
-                return redirect('customer')
-            elif user is not None and user.is_employee:
+                return redirect('path_khachhang')
+            elif user is not None and user.la_nhanvien:
                 login(request, user)
-                return redirect('employee')
+                return redirect('path_nhanvien')
             else:
                 msg= 'Thông tin không hợp lệ'
         else:
@@ -67,18 +58,45 @@ def viewQuenMatKhau(request):
     return render(request, 'quenmatkhau.html', {'msg': msg})
 def viewDoiMatKhau(request):
     msg = None
-    form = PasswordChangeForm(request.user, request.POST)
+    if str(request.user) == 'AnonymousUser':
+        print("thoa man")
+        return redirect('path_dangnhap')
     if request.method == 'POST':
+        form = PasswordChangeForm(request.user, request.POST)
         if form.is_valid():
             user = form.save()
             update_session_auth_hash(request, user)
             msg = 'Đổi mật khẩu thành công'
-        else:
-            msg = 'Đổi mật khẩu thất bại'
-    return render(request, 'doimatkhau.html', {'form': form,'msg': msg})
+    else:
+        form = PasswordChangeForm(request.user)
+    return render(request, 'doimatkhau.html', {'form': form, 'msg': msg, 'nguoidung':str(request.user)})
 def admin(request):
     return render(request,'admin.html')
-def customer(request):
-    return render(request,'customer.html')
-def employee(request):
-    return render(request,'employee.html')
+def viewKhachHang(request):
+    return render(request,'khachhang.html')
+def viewNhanVien(request):
+    return render(request,'nhanvien.html')
+def viewThemKhachHang(request):
+    msg = None
+    if request.method == 'POST':
+        form = KhachHangForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            msg = 'Thêm thành công'
+            return render(request, 'khachhang/them.html', {'form': form, 'msg': msg})
+    else:
+        print("K Hợp lệ")
+        form = KhachHangForm()
+    return render(request, 'khachhang/them.html', {'form': form, 'msg': msg})
+def hienThiDanhSachKhachHang(request):
+    khachhang = User.objects.filter(la_khachhang=1)
+    return render(request,"khachhang/hienthi.html",{'khachhang':khachhang})
+def suaKhachHang(request, id):
+    employee = User.objects.get(la_khachhang=True)
+    return render(request,'sua.html', {'employee':employee})
+def xoaKhachHang(request, id):
+    khachhang = User.objects.filter(id=id)
+    khachhang.delete()
+    khachhang = User.objects.filter(la_khachhang=1)
+    return redirect("/hienthidanhsachkhachhang")
+

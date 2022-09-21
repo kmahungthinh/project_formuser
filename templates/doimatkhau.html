@@ -17,15 +17,12 @@
     <!-- Style -->
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 
-    <title>Multiple user login</title>
+    <title>Change Password Page</title>
   </head>
   <body>
   <div class="content">
     <div class="container">
       <div class="row justify-content-center">
-        <!-- <div class="col-md-6 order-md-2">
-          <img src="images/undraw_file_sync_ot38.svg" alt="Image" class="img-fluid">
-        </div> -->
         <div class="col-md-6 contents">
           <div class="row justify-content-center">
             <div class="col-md-12">
@@ -33,11 +30,10 @@
                   <div class="mb-4">
                 </div>
 
-              <span class="mb-0 text-muted">
-                {% if msg %}
-                    Đổi mật khẩu
-                {% endif %}
-              </span>
+              <div class="form-block">
+                  <div class="mb-4">
+                      <h4>Đổi mật khẩu cho người dùng: {{nguoidung}}</h4>
+                </div>
                 <form  method="post">
                     {% csrf_token %}
                   <div class="form-group first">
@@ -48,12 +44,8 @@
                   </div>
                     <div class="form-group last mb-4">
                      <p><label>Nhập lại mật khẩu mới:</label>{{ form.new_password2 }}</p>
-
                   </div>
-
-
-
-
+                  <span class="text-error">{{ form.errors }}</span>
                   <input type="submit" value="Xác nhận" class="btn btn-pill text-white btn-block btn-primary">
                 </form>
                  <span class="mb-0 text-muted">
@@ -64,9 +56,7 @@
               </div>
             </div>
           </div>
-
         </div>
-
       </div>
     </div>
   </div>

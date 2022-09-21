@@ -28,57 +28,41 @@
             <div class="col-md-12">
               <div class="form-block">
                   <div class="mb-4">
-                      <h1>User Registration page</h1>
+                      <h1>Người dùng đăng ký</h1>
                 </div>
                   <span class="mb-0 text-muted">
-                {% if msg %}
-                    Login page
-                {% endif %}
               </span>
                 <form  method="post">
                     {% csrf_token %}
                   <div class="form-group first">
-                    <input type="text" name="taikhoan" placeholder="Tài khoản">
+                    <label>Tài khoản</label>
+                      {{ form.username }}
+                  </div>
+
+                  <div class="form-group last mb-4">
+                    <label>Mật khẩu</label>
+                      {{ form.password1 }}
+                  </div>
+                  <div class="form-group last mb-4">
+                    <label>Nhập lại mật khẩu</label>
+                      {{ form.password2 }}
                   </div>
                   <div class="form-group first">
-
-                    <input type="text" name="matkhau" placeholder="Mật khẩu">
+                    <label>Email</label>
+                      {{ form.email}}
                   </div>
-                  <div class="form-group last mb-4">
-                    <input type="text" name="nhaplaimatkhau" placeholder="Nhập lại mật khẩu">
+                  <div class="form-group first">
+                    <label>Số điện thoại</label>
+                      {{ form.sodienthoai}}
                   </div>
-                  <div class="form-group last mb-4">
-                   <input type="text" name="email" placeholder="Địa chỉ email">
+                  <div class="form-group first">
+                    <label>Địa chỉ</label>
+                      {{ form.diachi}}
                   </div>
-
-                  <div class="form-group last mb-4">
-                    <input type="text" name="sodienthoai" placeholder="Số điện thoại">
-                  </div>
-                  <div class="form-group last mb-4">
-                    <input type="text" name="diachi" placeholder="Địa chỉ">
-                  </div>
-                  <!--<div class="d-flex mb-5 align-items-center">
-                    <label class="control control--checkbox mb-0"><span class="caption">Admin</span>
-                        {{ form.is_admin }}
-                      <div class="control__indicator"></div>
-                    </label>
-                  </div>
-                  <div class="d-flex mb-5 align-items-center">
-                    <label class="control control--checkbox mb-0"><span class="caption">customer</span>
-                        {{ form.is_customer }}
-                      <div class="control__indicator"></div>
-                    </label>
-                  </div>
-                  <div class="d-flex mb-5 align-items-center">
-                    <label class="control control--checkbox mb-0"><span class="caption">employee</span>
-                        {{ form.is_employee }}
-                      <div class="control__indicator"></div>
-                    </label>
-                  </div>-->
-
-                  <input type="submit"  value="Đăng ký" class="btn btn-pill text-white btn-block btn-primary">
+                    <span class="text-error">{{ form.errors }}</span>
+                  <input type="submit"  value="Xác nhận" class="btn btn-pill text-white btn-block btn-primary">
                 </form>
-                  {% if msg %}
+                 {% if msg %}
                     {{ msg | safe }}
                 {% endif %}
               </div>
